@@ -41,5 +41,16 @@ describe('actor app', () => {
       });
   });
 
+  it('can find all actors', () => {
+    return Promise.all(['tom hanks', 'johnny depp', 'viola davis'].map(createActor))
+      .then(() => {
+        return request(app)
+          .get('/actors');
+      })
+      .then(listOfActors => {
+        expect(listOfActors.body).toHaveLength(3);
+      });
+  });
+
 
 });
