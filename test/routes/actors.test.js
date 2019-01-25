@@ -83,7 +83,7 @@ describe('actor routes', () => {
           .send(newActor)
           .then(newActor => {
             expect(newActor.body).toEqual({ 
-              _id: expect.any(String),
+              _id: createdActor._id.toString(),
               name: 'Mr. Banana',
               dob: '2010-10-20T00:00:00.000Z',
               pob: 'Your kitchen',
