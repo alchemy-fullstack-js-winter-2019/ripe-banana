@@ -6,6 +6,7 @@ const Studio = require('../../lib/models/Studio');
 
 
 describe('Studio tests', () => {
+
   beforeEach(done => {
     mongoose.connection.dropDatabase(done);
   });
@@ -29,5 +30,9 @@ describe('Studio tests', () => {
       }
     });
   });
+
+  afterAll((done) => {
+    mongoose.disconnect(done);
+  }); 
 
 });
