@@ -36,7 +36,6 @@ describe('studio routes', () => {
         expect(res.body).toEqual({ 
           _id: expect.any(String),
           __v: 0,
-            
           name: 'Warner Sisterz', 
           address: {
             city: 'Portland',
