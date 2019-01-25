@@ -83,3 +83,8 @@ it('updates a reviewer with :id and returns the update', () => {
       });
     });
 });
+
+afterAll(done => {
+  mongoose.connection.close(done);
+});
+

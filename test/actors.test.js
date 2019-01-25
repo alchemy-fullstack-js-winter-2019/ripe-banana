@@ -101,3 +101,7 @@ it('deletes an actor with :id and returns the delete count', () => {
         });
     });
 });
+
+afterAll(done => {
+  mongoose.connection.close(done);
+});

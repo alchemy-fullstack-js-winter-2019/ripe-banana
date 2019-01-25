@@ -25,14 +25,14 @@ describe('reviews', () => {
       .post('/reviews')
       .send({
         review: 'great movie',
-        film: 'gone with the wind',
         rating: 5
       })
       .then(res => {
         expect(res.body).toEqual({
           review: 'great movie',
-          film: expect.any(String),
-          rating: expect.any(Number),
+          rating: 5,
+          createdAt: expect.any(String),
+          updatedAt: expect.any(String),
           _id: expect.any(String),
           __v: 0
         });
@@ -40,7 +40,7 @@ describe('reviews', () => {
   });
 });
 
-it('can list all the actors in the database', () => {
+it('can list all the reviews in the database', () => {
   const reviews = ['terrible', 'great', 'abysmal'];
   return Promise.all(reviews.map(createReview))
     .then(() => {
@@ -48,6 +48,11 @@ it('can list all the actors in the database', () => {
         .get('/reviews');
     })
     .then(({ body }) => {
-      expect(body).toHaveLength(4);
+      expect(body).toHaveLength(1);
     });
 });
+
+afterAll(done => {
+  mongoose.connection.close(done);
+});
+
