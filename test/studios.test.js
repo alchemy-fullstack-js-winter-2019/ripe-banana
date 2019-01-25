@@ -5,11 +5,14 @@ const request = require('supertest');
 
 describe('studio app', () => {
   const createStudio = ((name, address) => {
-  return Studio.create({ name, address })
-  .then(studio => ({ ...studio, _id: studio._id.toString() }));
+    return Studio.create({ name, address })
+      .then(studio => ({ ...studio, _id: studio._id.toString() }));
   });
 
-  beforeEach
-  }
-}
+  beforeEach(done => {
+    return mongoose.connection.dropDatabase(() => {
+      done();
+    });
+  });
 
+});
