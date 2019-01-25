@@ -66,7 +66,7 @@ describe('reviewer routes', () => {
       });
   });
 
-  it.only('updates a reviewer', () => {
+  it('updates a reviewer', () => {
     const newReviewer = { name: 'Wally', company: { website: 'www.whereiswally.com' } };
     return createReviewer('Wally')
       .then(createdReviewer => {
@@ -83,7 +83,9 @@ describe('reviewer routes', () => {
       });
       
   });
+
   afterAll((done) => {
     mongoose.disconnect(done);
   });
+  
 });

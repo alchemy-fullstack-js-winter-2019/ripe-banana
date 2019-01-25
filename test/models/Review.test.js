@@ -12,7 +12,7 @@ const createReviewer = (name, company = { website: 'www.ryanheartsfilms' }) => {
     });
 };
 
-describe.only('Review tests', () => {
+describe('Review tests', () => {
 
   beforeEach(done => {
     mongoose.connection.dropDatabase(done);

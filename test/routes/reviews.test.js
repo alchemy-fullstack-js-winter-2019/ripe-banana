@@ -66,7 +66,7 @@ describe('reviews routes', () => {
             expect(res.body).toContainEqual({
               _id: expect.any(String),
               rating: 4,
-              reviewer: expect.any(String),
+              reviewer: { company: { website: 'www.ryanheartsfilms' }, _id: expect.any(String), name: 'TK' },
               review: 'it was pretty good',
             });
           });
