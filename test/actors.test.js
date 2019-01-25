@@ -52,5 +52,23 @@ describe('actor app', () => {
       });
   });
 
+  it('gets an actor by id', () => {
+    return createActor('tom hanks')
+      .then(createdActor => {
+        return Promise.all([
+          Promise.resolve(createdActor._id),
+          request(app)
+            .get(`/actors/${createdActor._id}`)
+        ]);
+      })
+      .then(([_id, res]) => {
+        expect(res.body).toEqual({
+          name: expect.any(String),
+          _id,
+          __v: 0
+        });
+      });
+  });
+
 
 });
