@@ -47,6 +47,7 @@ describe('studio routes', () => {
         });
       });
   });
+
   it('gets a list of studios', () => {
     const studiosToCreate = ['Banana', 'Stefanana', 'Nananers LLC'];
     return Promise.all(studiosToCreate.map(createStudio))
@@ -55,9 +56,11 @@ describe('studio routes', () => {
           .get('/studios');
       })
       .then(res => {
+        expect(res.body).toContainEqual({ _id: expect.any(String), name: 'Banana' });
         expect(res.body).toHaveLength(3);
       });
   });
+
   it('gets a studio by id', () => {
     return createStudio('Paige')
       .then(res => {
@@ -74,23 +77,23 @@ describe('studio routes', () => {
       });
   });
 
-  afterAll((done) => {
-    mongoose.disconnect(done);
+  it('can delete a studio', () => {
+    return createStudio('Cari')
+      .then(createdTweet => {
+        const _id = createdTweet._id;
+        return request(app)
+          .delete(`/studios/${_id}`)
+          .then(res => {
+            expect(res.body).toEqual({ deleted: 1 });
+          });
+      });
   });
 
 
-});
+  // afterAll((done) => {
+  //   mongoose.disconnect(done);
+  // });
 
-// it('gets a list of studios', () => {
-//   const handles = ['TA1', 'TA2', 'TA3'];
-//   return Promise.all(handles.map(createTweet))
-//     .then(() => {
-//       return request(app)
-//         .get('/tweets')
-//         .then(res => {
-//           expect(res.body).toHaveLength(3);
-//         });
-//     });
-// });
+});
 
 
