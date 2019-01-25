@@ -88,4 +88,14 @@ describe('actor app', () => {
       });
   });
 
+  it('delete an actor', () => {
+    return createActor('tom hanks to be deleted')
+      .then(newActor => {
+        return request(app)
+          .delete(`/actors/${newActor._id}`)
+          .then(deletedActor => {
+            expect(deletedActor.body).toEqual({ deleted: 1 });
+          });
+      });
+  });
 });
