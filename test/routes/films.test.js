@@ -41,21 +41,25 @@ const createActor = (
 };
 
 const createFilm = (title, released, role) => {
-  return createStudio('Warner')
+  return createStudio('Warner', '123')
     .then(studio => {
-      return createActor('CariPizzaNana')
+      return createActor('CariPizzaNana', 1994, 'Florida')
         .then(actor => {
-          // console.log('studio', studio);
+          console.log('studio', studio);
           // console.log('actor', actor);
           return Film.create({
             title,
             studio: studio._id,
-            released,
+            released: 1203,
             cast: {
               role,
               actor: actor._id
             }
-          });
+          })
+            .then(film => ({
+              ...film,
+              _id: film._id.toString()
+            }));
         });
     });
 };
@@ -66,25 +70,23 @@ describe('film routes', () => {
   });
 
   it('creates a film', () => {
-    return createFilm('Rock of Bananas', 1885, 'Banana Interest')
-      .then(createdFilm => {
-        // console.log('created', createdFilm);
-        return request(app)
-          .post('/films')
-          .send(createdFilm)
-          .then(res => {
-            // console.log(res.body);
-            expect(res.body).toEqual({ _id: expect.any(String),
-              title: 'Rock of Bananas',
-              studio: expect.any(Types.ObjectId),
-              released: 1885,
-              cast:
-               [{ _id: expect.any(Types.ObjectId),
-                 role: 'Banana Interest',
-                 actor: expect.any(Types.ObjectId) 
-               }],
-              __v: 0 });
+    return Studio.create({ name: 'studioName', address: '123' })
+      .then(studio => {
+        return Actor.create({ name: 'actor name', dob: '1888-10-03', pob: 'Wisconsin' })
+          .then(actor => {
+            return Film.create({ title: 'Rock of Bananas', studio: studio._id, released: 1885, cast: [{ role: 'Banana Interest', actor: actor._id }] });
           });
+      })
+      .then(res => {
+        expect(res.toJSON()).toEqual(
+          { __v: 0,
+            _id: expect.any(Types.ObjectId),
+            cast: 
+            [{ _id: expect.any(Types.ObjectId),
+              actor: expect.any(Types.ObjectId),
+              role: 'Banana Interest'
+            }], released: 1885, studio: expect.any(Types.ObjectId), title: 'Rock of Bananas' }
+        );
       });
   });
 });
