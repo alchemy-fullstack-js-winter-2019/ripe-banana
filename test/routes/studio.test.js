@@ -77,8 +77,8 @@ describe('studio routes', () => {
 
   it('can delete a studio', () => {
     return createStudio('Cari')
-      .then(createdTweet => {
-        const _id = createdTweet._id;
+      .then(createdStudio => {
+        const _id = createdStudio._id;
         return request(app)
           .delete(`/studios/${_id}`)
           .then(res => {
