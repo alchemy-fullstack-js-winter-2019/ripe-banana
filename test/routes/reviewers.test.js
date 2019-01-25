@@ -5,9 +5,7 @@ const request = require('supertest');
 const app = require('../../lib/app');
 const mongoose = require('mongoose');
 
-const createReviewer = (name, company = {
-  website: 'www.ryanheartsfilms.com'
-}) => {
+const createReviewer = (name, company = { website: 'www.ryanheartsfilms' }) => {
   return Reviewer.create({ name, company })
     .then(createdReviewer => {
       return createdReviewer;
@@ -38,18 +36,22 @@ describe('reviewer routes', () => {
         });
       });
   });
+
   it('gets a list of reviewers', () => {
     const reviewersToCreate = ['kevin', 'mariah', 'alex'];
-    return Promise.all(reviewersToCreate.map(createReviewer))
+    return Promise.all(reviewersToCreate.map(reviewer => createReviewer(reviewer)))
       .then(() => {
         return request(app)
           .get('/reviewers');
       })
       .then(res => {
         expect(res.body).toHaveLength(3);
-        expect(res.body).toContainEqual({ _id: expect.any(String), name: 'Kevin', company: { website: 'www.ryanheartsfilms.com' } });
+        expect(res.body).toContainEqual({ company: { website: 'www.ryanheartsfilms' },
+          _id: expect.any(String),
+          name: 'mariah' });
       });
   });
+
   afterAll((done) => {
     mongoose.disconnect(done);
   });
