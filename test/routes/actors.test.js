@@ -74,6 +74,24 @@ describe('actor routes', () => {
       });
   });
 
+  it('can update an actor', () => {
+    const newActor = { name: 'Mr. Banana', dob: '2010-10-20', pob: 'Your kitchen' };
+    return createActor('Sir Banana')
+      .then(createdActor => { 
+        return request(app)
+          .put(`/actors/${createdActor._id}`)
+          .send(newActor)
+          .then(newActor => {
+            expect(newActor.body).toEqual({ 
+              _id: expect.any(String),
+              name: 'Mr. Banana',
+              dob: '2010-10-20T00:00:00.000Z',
+              pob: 'Your kitchen',
+              __v: 0 });
+          });
+      });
+  });
+
   afterAll((done) => {
     mongoose.disconnect(done);
   });
