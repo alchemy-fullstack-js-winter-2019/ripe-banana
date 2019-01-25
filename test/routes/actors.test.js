@@ -76,7 +76,7 @@ describe('actor routes', () => {
 
   it('can update an actor', () => {
     const newActor = { name: 'Mr. Banana', dob: '2010-10-20', pob: 'Your kitchen' };
-    return createActor('Sir Banana')
+    return createActor('Sir Banana', '2010-11-20', 'Margaritaville')
       .then(createdActor => { 
         return request(app)
           .put(`/actors/${createdActor._id}`)
@@ -88,6 +88,22 @@ describe('actor routes', () => {
               dob: '2010-10-20T00:00:00.000Z',
               pob: 'Your kitchen',
               __v: 0 });
+          });
+      });
+  });
+
+  it('can delete an actor', () => {
+    return createActor('Mama Nana')
+      .then(createdActor => {
+        const _id = createdActor._id;
+        return request(app)
+          .delete(`/actors/${_id}`)
+          .then(res => {
+            expect(res.body).toEqual({ deleted: 1 });
+            return Actor.findById(_id)
+              .then(res => {
+                expect(res).toBeNull();
+              });
           });
       });
   });
