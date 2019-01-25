@@ -71,23 +71,24 @@ it('gets an actor by id', () => {
     });
 });
 
-// it('updates a tweet with :id and returns the update', () => {
-//   return createTweet('kristin1')
-//     .then(createdTweet => {
-//       createdTweet.text = 'new text';
-//       return request(app)
-//         .patch(`/tweets/${createdTweet._id}`)
-//         .send(createdTweet);
-//     })
-//     .then(res => {
-//       expect(res.body).toEqual({
-//         handle: expect.any(Object),
-//         text: 'new text',
-//         tag: 'code',
-//         _id: expect.any(String)
-//       });
-//     });
-// });
+it('updates an actor with :id and returns the update', () => {
+  return createActor('Kate McKinnon')
+    .then(createdActor => {
+      createdActor.name = 'new name';
+      return request(app)
+        .put(`/actors/${createdActor._id}`)
+        .send(createdActor);
+    })
+    .then(res => {
+      expect(res.body).toEqual({
+        name: 'new name',
+        dob: '1958-10-20T08:00:00.000Z',
+        pob: 'some place',
+        _id: expect.any(String),
+        __v: 0
+      });
+    });
+});
 
 // it('deletes a tweet with :id and returns the delete count', () => {
 //   return createTweet('baller for lyfe')
