@@ -29,7 +29,7 @@ describe('app', () => {
       .get('/')
       .then(res => {
         expect(res.status).toEqual(200);
-        expect(res.text).toEqual('Welcome to THE RIPEST BANANA');
+        expect(res.text).toContain('<h1>Welcome to THE RIPEST BANANA</h1>');
       });
   });
 });
