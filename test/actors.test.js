@@ -67,8 +67,25 @@ describe('actor app', () => {
           _id,
           __v: 0
         });
-      });
+      }); 
   });
 
+  it('can update an actor by id', () => {
+    return createActor('tom hanks')
+      .then(createdActor => {
+        return request(app)
+          .patch(`/actors/${createdActor._id}`)
+          .send({
+            name: 'Thomas Jeffery Hanks'
+          });
+      })
+      .then(updatedActor => {
+        expect(updatedActor.body).toEqual({
+          name: 'Thomas Jeffery Hanks',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
 
 });

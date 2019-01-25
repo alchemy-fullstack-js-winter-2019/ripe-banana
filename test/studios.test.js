@@ -93,5 +93,6 @@ describe('studio app', () => {
         expect(res.status).toEqual(404);
       });
   });
+
 });
 
