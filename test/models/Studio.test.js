@@ -34,5 +34,4 @@ describe('Studio tests', () => {
   afterAll((done) => {
     mongoose.disconnect(done);
   }); 
-
 });
