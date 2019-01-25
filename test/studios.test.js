@@ -75,6 +75,23 @@ describe('studio app', () => {
         });
       });
   });
-
+  it('can delete a studio', () => {
+    return createStudio('warner')
+      .then(createdStudio => {
+        return Promise.all([
+          Promise.resolve(createdStudio._id),
+          request(app)
+            .delete(`/studios/${createdStudio._id}`)
+        ]);
+      })
+      .then(([_id, res]) => {
+        expect(res.body).toEqual({ deleted: 1 });
+        return request(app)
+          .get(`/studios/${_id}`);
+      })
+      .then(res => {
+        expect(res.status).toEqual(404);
+      });
+  });
 });
 
