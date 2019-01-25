@@ -18,7 +18,7 @@ describe('reviewer routes', () => {
   beforeEach(done => {
     mongoose.connection.dropDatabase(done);
   });
-  it.only('creates a reviewer', () => {
+  it('creates a reviewer', () => {
     return request(app)
       .post('/reviewers')
       .send({
@@ -36,6 +36,18 @@ describe('reviewer routes', () => {
             website: 'www.noirmariah.com'
           }
         });
+      });
+  });
+  it('gets a list of reviewers', () => {
+    const reviewersToCreate = ['kevin', 'mariah', 'alex'];
+    return Promise.all(reviewersToCreate.map(createReviewer))
+      .then(() => {
+        return request(app)
+          .get('/reviewers');
+      })
+      .then(res => {
+        expect(res.body).toHaveLength(3);
+        expect(res.body).toContainEqual({ _id: expect.any(String), name: 'Kevin', company: { website: 'www.ryanheartsfilms.com' } });
       });
   });
   afterAll((done) => {
