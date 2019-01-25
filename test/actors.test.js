@@ -4,16 +4,16 @@ const request = require('supertest');
 const app = require('../lib/app');
 const mongoose = require('mongoose');
 
-// const createActor = (name) => {
-//   return request(app)
-//     .post('/actors')
-//     .send({ 
-//       name: name,
-//       dob: 'some date',
-//       pob: 'some place'
-//     })
-//     .then(res => res.body);
-// };
+const createActor = (name) => {
+  return request(app)
+    .post('/actors')
+    .send({ 
+      name: name,
+      dob: '1958-10-20T08:00:00.000Z',
+      pob: 'some place'
+    })
+    .then(res => res.body);
+};
 
 describe('actors', () => {
   beforeEach(done => {
@@ -22,7 +22,7 @@ describe('actors', () => {
     });
   });
 
-  it.only('creates a new actor', () => {
+  it('creates a new actor', () => {
     return request(app)
       .post('/actors')
       .send({
@@ -42,41 +42,17 @@ describe('actors', () => {
   });
 });
 
-// it('can create a ron swanson tweet', () => {
-//   return createUser('test user')
-//     .then(createdUser => {
-//       return request(app)
-//         .post('/tweets/?random=true')
-//         .send({
-//           //create with reference to a user, user's id who we created above
-//           //handle is reference to user
-//           handle: createdUser._id,
-//           text: 'some text',
-//           tag: 'code'
-//         })
-//         .then(res => {
-//           expect(res.body).toEqual({
-//             handle: expect.any(String),
-//             text: 'There are only three ways to motivate people: money, fear, and hunger.',
-//             tag: 'code',
-//             _id: expect.any(String),
-//             __v: 0
-//           });
-//         });
-//     });
-// });
-
-// it('can list all the tweets in the database', () => {
-//   const handles = ['roxy1', 'roxy2', 'roxy3', 'roxy4'];
-//   return Promise.all(handles.map(createTweet))
-//     .then(() => {
-//       return request(app)
-//         .get('/tweets');
-//     })
-//     .then(({ body }) => {
-//       expect(body).toHaveLength(5);
-//     });
-// });
+it('can list all the actors in the database', () => {
+  const names = ['chris1', 'chris2', 'chris3'];
+  return Promise.all(names.map(createActor))
+    .then(() => {
+      return request(app)
+        .get('/actors');
+    })
+    .then(({ body }) => {
+      expect(body).toHaveLength(4);
+    });
+});
 
 // it('gets a tweet by id', () => {
 //   return createTweet('kristin1')
