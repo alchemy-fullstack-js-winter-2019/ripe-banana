@@ -45,4 +45,15 @@ describe('studio app', () => {
       });
   });
 
+  it('can get all studios', () => {
+    return Promise.all(['warner', 'sony', 'walt disney'].map(createStudio))
+      .then(() => {
+        return request(app)
+          .get('/studios');
+      })
+      .then(res => {
+        expect(res.body).toHaveLength(3);
+      });
+  });
+
 });
