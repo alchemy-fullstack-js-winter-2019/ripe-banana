@@ -10,11 +10,13 @@ describe('studio app', () => {
     return Studio.create({ name, address })
       .then(studio => ({ ...studio, _id: studio._id.toString() }));
   });
-
   beforeEach(done => {
     return mongoose.connection.dropDatabase(() => {
       done();
     });
+  });
+  afterAll((done) => {
+    mongoose.connection.close(done);
   });
 
   it('can create a new studio', () => {
@@ -56,4 +58,23 @@ describe('studio app', () => {
       });
   });
 
+  it('can get a studio by id', () => {
+    return createStudio('warner')
+      .then(createdStudio => {
+        return Promise.all([
+          Promise.resolve(createdStudio._id),
+          request(app)
+            .get(`/studios/${createdStudio._id}`)
+        ]);
+      })
+      .then(([_id, res]) => {
+        expect(res.body).toEqual({
+          name: expect.any(String),
+          _id,
+          __v: 0
+        });
+      });
+  });
+
 });
+
