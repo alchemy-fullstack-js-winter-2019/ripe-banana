@@ -90,14 +90,14 @@ it('updates an actor with :id and returns the update', () => {
     });
 });
 
-// it('deletes a tweet with :id and returns the delete count', () => {
-//   return createTweet('baller for lyfe')
-//     .then((createdTweet) => {
-//       const id = createdTweet._id;
-//       return request(app)
-//         .delete(`/tweets/${id}`)
-//         .then(res => {
-//           expect(res.body).toEqual({ 'deleted': 1 });
-//         });
-//     });
-// });
+it('deletes an actor with :id and returns the delete count', () => {
+  return createActor('Coolio')
+    .then((createdActor) => {
+      const id = createdActor._id;
+      return request(app)
+        .delete(`/actors/${id}`)
+        .then(res => {
+          expect(res.body).toEqual({ 'deleted': 1 });
+        });
+    });
+});
