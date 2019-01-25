@@ -13,19 +13,19 @@ const createReviewer = (name, company = { website: 'www.ryanheartsfilms' }) => {
     });
 };
 
-// const createReview = (rating = 5, reviewer, review = 'AMAZING SOUNDTRACK!') => {
-//   return Review.create({ rating, reviewer, review })
-//     .then(createdReview => {
-//       return createdReview;
-//     });
-// };
+const createReview = ({ rating = 5, reviewer, review = 'AMAZING SOUNDTRACK!', createdAt = Date.now(), updatedAt = Date.now() }) => {
+  return Review.create({ rating, reviewer, review, createdAt, updatedAt })
+    .then(createdReview => {
+      return createdReview;
+    });
+};
   
 describe('reviews routes', () => {
   beforeEach(done => {
     mongoose.connection.dropDatabase(done);
   });
 
-  it.only('creates a  new review', () => {
+  it('creates a  new review', () => {
     return createReviewer('Jojo')
       .then(createdReviewer => {
         return request(app)
@@ -34,12 +34,11 @@ describe('reviews routes', () => {
             rating: 3, 
             reviewer: createdReviewer._id,
             review: 'CRAPPY', 
-            createdAt: Date.now,
-            updatedAt: Date.now
+            createdAt: Date.now(),
+            updatedAt: Date.now()
           });
       })
       .then(res => {
-        console.log('bdy', typeof res.body.updatedAt);
       
         expect(res.body).toEqual({
           _id: expect.any(String),
@@ -52,7 +51,30 @@ describe('reviews routes', () => {
         });
       });
   });
+
+  it('get all reviews', () => {
+    return createReviewer('TK')
+      .then(createdReviewer => {
+        const reviewsCreate = [{ rating: 4, reviewer: createdReviewer._id, review: 'it was pretty good' }, { rating: 2, reviewer: createdReviewer._id, review: 'it was pretty bad' }];
+        return Promise.all(reviewsCreate.map(review => createReview(review)))
+          .then(() => {
+            return request(app)
+              .get('/reviews');
+          })
+          .then(res => {
+            expect(res.body).toHaveLength(2);
+            expect(res.body).toContainEqual({
+              _id: expect.any(String),
+              rating: 4,
+              reviewer: expect.any(String),
+              review: 'it was pretty good',
+            });
+          });
+      });
+  });
+
   afterAll((done) => {
     mongoose.disconnect(done);
   });
+
 });
