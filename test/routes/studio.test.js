@@ -58,6 +58,21 @@ describe('studio routes', () => {
         expect(res.body).toHaveLength(3);
       });
   });
+  it('gets a studio by id', () => {
+    return createStudio('Paige')
+      .then(res => {
+        return request(app)
+          .get(`/studios/${res._id}`)
+          .then(res => {
+            expect(res.body).toEqual({
+              name: 'Paige',
+              address: expect.any(Object),
+              _id: expect.any(String),
+              __v: 0
+            });
+          });
+      });
+  });
 
   afterAll((done) => {
     mongoose.disconnect(done);
