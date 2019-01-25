@@ -1,3 +1,5 @@
+require('dotenv').config();
+require('../../lib/utils/connect')();
 // const { Router } = require('express');
 // const Studio = require('../models/Studio');
 const request = require('supertest');
