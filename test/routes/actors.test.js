@@ -57,6 +57,23 @@ describe('actor routes', () => {
       });
   });
 
+  it('gets an actor by id', () => {
+    return createActor('J\'eremiah Pumpkinh3ad')
+      .then(res => {
+        return request(app)
+          .get(`/actors/${res._id}`)
+          .then(res => {
+            expect(res.body).toEqual({
+              name: 'J\'eremiah Pumpkinh3ad',
+              dob: expect.any(String),
+              pob: expect.any(String),
+              _id: expect.any(String),
+              __v: 0
+            });
+          });
+      });
+  });
+
   afterAll((done) => {
     mongoose.disconnect(done);
   });
