@@ -1,6 +1,5 @@
 require('dotenv').config();
 require('../../lib/utils/connect')();
-// const { Router } = require('express');
 const Studio = require('../../lib/models/Studio');
 const request = require('supertest');
 const app = require('../../lib/app');
@@ -89,10 +88,9 @@ describe('studio routes', () => {
       });
   });
 
-
-  // afterAll((done) => {
-  //   mongoose.disconnect(done);
-  // });
+  afterAll((done) => {
+    mongoose.disconnect(done);
+  });
 
 });
 
