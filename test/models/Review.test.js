@@ -19,7 +19,7 @@ describe.only('Review tests', () => {
   });
 
   it('validates a good model', () => {
-    createReviewer('Kinglsey')
+    return createReviewer('Kinglsey')
       .then(createdReviewer => {
         const review = new Review({
           rating: 5,
