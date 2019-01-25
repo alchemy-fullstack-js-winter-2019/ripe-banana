@@ -54,21 +54,22 @@ it('can list all the actors in the database', () => {
     });
 });
 
-// it('gets a tweet by id', () => {
-//   return createTweet('kristin1')
-//     .then(createdTweet => {
-//       return request(app) 
-//         .get(`/tweets/${createdTweet._id}`)
-//         .then(res => {
-//           expect(res.body).toEqual({
-//             handle: expect.any(Object),
-//             text: 'some text',
-//             tag: 'code',
-//             _id: expect.any(String)
-//           });
-//         });
-//     });
-// });
+it('gets an actor by id', () => {
+  return createActor('Arnold Schwarzenegger')
+    .then(createdActor => {
+      return request(app) 
+        .get(`/actors/${createdActor._id}`)
+        .then(res => {
+          expect(res.body).toEqual({
+            name: 'Arnold Schwarzenegger',
+            dob: '1958-10-20T08:00:00.000Z',
+            pob: 'some place',
+            _id: expect.any(String),
+            __v: 0
+          });
+        });
+    });
+});
 
 // it('updates a tweet with :id and returns the update', () => {
 //   return createTweet('kristin1')
