@@ -14,7 +14,7 @@ const createStudio = (name = 'Sony Pictures', address = { city: 'Burbank', state
     .then(res => res.body);
 };
 
-describe('tweets app', () => {
+describe('studios app', () => {
   beforeEach(done => {
     return mongoose.connection.dropDatabase(() => {
       done();
