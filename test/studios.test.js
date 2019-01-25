@@ -39,7 +39,7 @@ describe('studio app', () => {
                 country: 'US'
               },
               _id: expect.any(String),
-              // __v: 0
+              __v: 0
             });
           });
       });
