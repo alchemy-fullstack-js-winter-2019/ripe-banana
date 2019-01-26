@@ -27,7 +27,7 @@ describe('actors', () => {
       .post('/actors')
       .send({
         name: 'nick offerman',
-        dob: '10/20/1958',
+        dob: '1958-10-20T08:00:00.000Z',
         pob: 'some place'
       })
       .then(res => {
