@@ -13,9 +13,11 @@ const createReviewer = (name, company = { website: 'www.ryanheartsfilms' }) => {
 };
 
 describe('reviewer routes', () => {
+  
   beforeEach(done => {
     mongoose.connection.dropDatabase(done);
   });
+
   it('creates a reviewer', () => {
     return request(app)
       .post('/reviewers')
@@ -87,5 +89,5 @@ describe('reviewer routes', () => {
   afterAll((done) => {
     mongoose.disconnect(done);
   });
-  
+
 });

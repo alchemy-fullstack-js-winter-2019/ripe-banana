@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch --verbose --runInBand",
+    "test": "jest --verbose --runInBand --detectOpenHandles",
+    "test:watch": "jest --watch --verbose --runInBand --detectOpenHandles",
     "lint": "eslint .",
     "pretest": "npm run lint",
     "start": "nodemon server.js"
