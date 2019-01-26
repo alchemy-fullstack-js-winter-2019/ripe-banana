@@ -13,7 +13,7 @@ const createReviewer = (name, company = { website: 'www.ryanheartsfilms' }) => {
 };
 
 describe('reviewer routes', () => {
-  
+
   beforeEach(done => {
     mongoose.connection.dropDatabase(done);
   });
@@ -87,7 +87,8 @@ describe('reviewer routes', () => {
   });
 
   afterAll((done) => {
-    mongoose.disconnect(done);
+    mongoose.connection.close();
+    done();
   });
 
 });

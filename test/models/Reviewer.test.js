@@ -25,7 +25,8 @@ describe('Reviewer test', () => {
     });
 
     afterAll((done) => {
-      mongoose.disconnect(done);
+      mongoose.connection.close();
+      done();
     }); 
   });
 });

@@ -5,7 +5,7 @@ const { Types } = require('mongoose');
 const Actor = require('../../lib/models/Actor');
 
 
-describe('Actor tests', () => {
+describe.only('Actor tests', () => {
 
   beforeEach(done => {
     mongoose.connection.dropDatabase(done);
@@ -26,7 +26,8 @@ describe('Actor tests', () => {
   });
 
   afterAll((done) => {
-    mongoose.disconnect(done);
+    mongoose.connection.close();
+    done();
   }); 
 
 });

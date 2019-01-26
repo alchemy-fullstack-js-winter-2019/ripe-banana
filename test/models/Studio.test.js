@@ -32,6 +32,7 @@ describe('Studio tests', () => {
   });
 
   afterAll((done) => {
-    mongoose.disconnect(done);
+    mongoose.connection.close();
+    done();
   }); 
 });
