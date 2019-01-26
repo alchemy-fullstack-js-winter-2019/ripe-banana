@@ -17,7 +17,7 @@ describe('film app', () => {
   });
 
   it('creates a new film', () => {
-    return createFilm('Castaway', 'Warner', Date.now(), { role: 'lead', actor: 'Tom Hanks' })
+    return createFilm('Castaway', 'warner', Date.now(), { role: 'lead', actor: 'Tom Hanks' })
       .then(() => {
         return request(app)
           .post('/films')
