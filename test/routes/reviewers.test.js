@@ -46,33 +46,33 @@ describe('test Reviewer routes', () => {
             })
             .then(res => expect(res.body).toHaveLength(3));
     });
-    it('can get a Reviewer by ID', () => {
-        return createReviewer('DANKNASTY')
-            .then(createdReviewer => {
-                return request(app)
-                    .get(`/reviewers/${createdReviewer._id}`);
-            })
-            .then(res => expect(res.body.name).toContain('DANKNASTY'));
-    });
-    it('can update an Reviewer', () => {
-        return createReviewer('LANCEBABY')
-            .then(createdReviewer => {
-                return request(app)
-                    .patch(`/reviewers/${createdReviewer._id}`)
-                    .send({ name: 'LANCEUPDATED' });
-            })
-            .then(res => {
-                expect(res.body.name).toEqual('LANCEUPDATED');
-            });
-    });
-    it('can delete a Reviewer', () => {
-        return createReviewer('BEST EVER')
-            .then(createdReviewer => {
-                return request(app)
-                    .delete(`/reviewers/${createdReviewer._id}`);
-            })
-            .then(res => expect(res.body).toEqual({ deleted: true }));
-    });
+    // it('can get a Reviewer by ID', () => {
+    //     return createReviewer('DANKNASTY')
+    //         .then(createdReviewer => {
+    //             return request(app)
+    //                 .get(`/reviewers/${createdReviewer._id}`);
+    //         })
+    //         .then(res => expect(res.body.name).toContain('DANKNASTY'));
+    // });
+    // it('can update an Reviewer', () => {
+    //     return createReviewer('LANCEBABY')
+    //         .then(createdReviewer => {
+    //             return request(app)
+    //                 .patch(`/reviewers/${createdReviewer._id}`)
+    //                 .send({ name: 'LANCEUPDATED' });
+    //         })
+    //         .then(res => {
+    //             expect(res.body.name).toEqual('LANCEUPDATED');
+    //         });
+    // });
+    // it('can delete a Reviewer', () => {
+    //     return createReviewer('BEST EVER')
+    //         .then(createdReviewer => {
+    //             return request(app)
+    //                 .delete(`/reviewers/${createdReviewer._id}`);
+    //         })
+    //         .then(res => expect(res.body).toEqual({ deleted: true }));
+    // });
 
 
 });
