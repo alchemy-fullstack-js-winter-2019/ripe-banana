@@ -15,6 +15,12 @@ const createActor = (name) => {
     .then(res => res.body);
 };
 
+let arnold = {
+  name: 'Arnold Schwarzenegger',
+  dob: new Date(1947, 7, 30).toJSON(),
+  pob: 'Austria'
+};
+
 describe('actors', () => {
   beforeEach(done => {
     return mongoose.connection.dropDatabase(() => {
@@ -25,19 +31,15 @@ describe('actors', () => {
   it('creates a new actor', () => {
     return request(app)
       .post('/actors')
-      .send({
-        name: 'nick offerman',
-        dob: '1958-10-20T08:00:00.000Z',
-        pob: 'some place'
-      })
-      .then(res => {
-        expect(res.body).toEqual({
-          name: 'nick offerman',
-          dob: '1958-10-20T08:00:00.000Z',
-          pob: 'some place',
-          _id: expect.any(String),
-          __v: 0
+      .send(arnold)
+      .then(({ body }) => {
+        const { _id, __v } = body;
+        expect(body).toEqual({
+          ...arnold,
+          _id,
+          __v
         });
+        arnold = body;
       });
   });
 });
@@ -55,19 +57,27 @@ it('can list all the actors in the database', () => {
 });
 
 it('gets an actor by id', () => {
-  return createActor('Arnold Schwarzenegger')
-    .then(createdActor => {
+  let terminator = {
+    title: 'The Terminator',
+    studio: mongoose.Types.ObjectId(),
+    released: 1984,
+    cast: [{
+      part: 'Model 101',
+      actor: arnold._id
+    }]
+  };
+  
+  return request(app)
+    .post('/films')
+    .send(terminator)
+    .then(({ body }) => {
+      terminator = body;
       return request(app) 
-        .get(`/actors/${createdActor._id}`)
-        .then(res => {
-          expect(res.body).toEqual({
-            name: 'Arnold Schwarzenegger',
-            dob: '1958-10-20T08:00:00.000Z',
-            pob: 'some place',
-            _id: expect.any(String),
-            __v: 0
-          });
-        });
+        .get(`/actors/${arnold._id}`);
+    })
+
+    .then(({ body }) => {
+      expect(body).toEqual({ ...arnold, films: [] });
     });
 });
 

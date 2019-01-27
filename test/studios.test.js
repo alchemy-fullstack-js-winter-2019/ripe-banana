@@ -3,7 +3,6 @@ require('../lib/utils/connect')();
 const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app');
-
 const createStudio = (name = 'Sony Pictures', address = { city: 'Burbank', state: 'California', country: 'USA' }) => {
   return request(app)
     .post('/studios')
@@ -67,6 +66,7 @@ describe('studios app', () => {
         expect(res.body).toEqual({
           address: { city: 'Burbank', state: 'California', country: 'USA' },
           name: 'Pacific',
+          films: [],
           _id,
           __v: 0
         });
@@ -78,7 +78,7 @@ describe('studios app', () => {
       .then(updatedStudio => {
         updatedStudio.name = 'Paramount';
         return request(app)
-          .patch(`/studios/${updatedStudio._id}`)
+          .put(`/studios/${updatedStudio._id}`)
           .send(updatedStudio);
       })
       .then(res => {

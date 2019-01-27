@@ -60,6 +60,7 @@ it('gets a reviewer by id', () => {
           expect(res.body).toEqual({
             name: 'travis scott',
             company: 'some company',
+            reviews: [],
             _id: expect.any(String)
           });
         });

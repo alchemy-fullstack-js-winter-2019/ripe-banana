@@ -55,6 +55,7 @@ describe('films app', () => {
               title: 'The Matrix',
               released: 1999,
               studio: expect.any(String),
+              cast: [],
               _id: expect.any(String),
               __v: 0
             });
@@ -87,6 +88,8 @@ describe('films app', () => {
         expect(res.body).toEqual({
           title: 'American Beauty',
           released: 1984,
+          cast: [],
+          reviews: [],
           studio: {
             _id: expect.any(String),
             name: 'Paramount'
@@ -101,7 +104,7 @@ describe('films app', () => {
       .then(updatedFilm => {
         updatedFilm.title = 'Office Space';
         return request(app)
-          .patch(`/films/${updatedFilm._id}`)
+          .put(`/films/${updatedFilm._id}`)
           .send(updatedFilm);
       })
       .then(res => {
