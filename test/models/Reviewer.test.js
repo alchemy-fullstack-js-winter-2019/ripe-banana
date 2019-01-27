@@ -24,9 +24,10 @@ describe('Reviewer test', () => {
       }
     });
 
-    afterAll((done) => {
-      mongoose.connection.close();
-      done();
-    }); 
+  });
+
+  afterAll((done) => {
+    mongoose.connection.close();
+    done();
   });
 });

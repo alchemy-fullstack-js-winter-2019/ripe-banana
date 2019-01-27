@@ -24,12 +24,13 @@ describe('app', () => {
       });
   });
 
-  it('can return a homepage message', () => {
+  it('can return a homepage message', done => {
     return request(app)
       .get('/')
       .then(res => {
         expect(res.status).toEqual(200);
         expect(res.text).toContain('<h1>Welcome to THE RIPEST BANANA</h1>');
+        done();
       });
   });
 });
