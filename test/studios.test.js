@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const Studio = require('../lib/models/Studio');
 const Film = require('../lib/models/Film');
 
+let genStudio = null;
 describe('studios', () => {
   const createStudio = (name, address) => {
     return Studio
@@ -15,6 +16,7 @@ describe('studios', () => {
   const createFilm = (title, released) => {
     return createStudio('Shaba Productions', '1234 Main St.')
       .then(studio => {
+        genStudio = studio;
         return Film
           .create({ title, released, studioId: studio._id });
       });
@@ -38,5 +40,11 @@ describe('studios', () => {
           name: 'Shaba Productions'
         }]);
       });
+  });
+
+  it('gets studio by id', () => {
+    return request(app)
+      .get(`/studios/${genStudio._id}`)
+      .then(res => console.log('get by id', res.body));
   });
 });
