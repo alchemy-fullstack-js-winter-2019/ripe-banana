@@ -67,7 +67,7 @@ module.exports = ((studios = STUDIOS, films = FILMS, actors = ACTORS, reviewers 
             reviewer: chance.pickone(reviewersCreated)._id,
             review: 'It was blah',
             film: chance.pickone(filmsDb)._id,
-            updatedAt: Date.now() 
+            updatedAt: Date.now()
           });
         })
       );
