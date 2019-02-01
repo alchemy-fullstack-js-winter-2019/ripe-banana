@@ -28,7 +28,7 @@ describe('app', () => {
       .then(res => expect(res.body).toHaveLength(10));
   });
   
-  it.only('gets studio by id', () => {
+  it('gets studio by id', () => {
     return request(app)
       .get('/studios')
       .then(res => {
