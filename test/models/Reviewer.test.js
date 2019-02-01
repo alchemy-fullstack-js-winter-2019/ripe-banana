@@ -2,37 +2,32 @@ require('dotenv').config();
 require('../../lib/utils/connect')();
 const mongoose = require('mongoose');
 const { Types } = require('mongoose');
-const Studio = require('../../lib/models/Studio');
+const Reviewer = require('../../lib/models/Reviewer');
 
-
-describe('Studio tests', () => {
-
+describe('Reviewer test', () => {
   beforeEach(done => {
     mongoose.connection.dropDatabase(done);
   });
 
   it('validates a good model', () => {
-    const studio = new Studio({
-      name: 'Warner Sisterz',
-      address: {
-        city: 'Portland',
-        state: 'OR',
-        country: '\'Merica'
+    const reviewer = new Reviewer({
+      name: 'Frank',
+      company: {
+        website: 'www.frankgoestothemovies.com'
       }
     });
-    expect(studio.toJSON()).toEqual({
+    expect(reviewer.toJSON()).toEqual({
       _id: expect.any(Types.ObjectId),
-      name: 'Warner Sisterz',
-      address: {
-        city: 'Portland',
-        state: 'OR',
-        country: '\'Merica'
+      name: 'Frank',
+      company: {
+        website: 'www.frankgoestothemovies.com'
       }
     });
+
   });
 
   afterAll((done) => {
     mongoose.connection.close();
     done();
-  }); 
+  });
 });

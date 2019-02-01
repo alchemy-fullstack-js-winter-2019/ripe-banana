@@ -86,9 +86,10 @@ describe('studio routes', () => {
           });
       });
   });
-
+  
   afterAll((done) => {
-    mongoose.disconnect(done);
+    mongoose.connection.close();
+    done();
   });
 
 });
