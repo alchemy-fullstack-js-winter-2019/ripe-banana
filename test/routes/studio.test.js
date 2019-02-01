@@ -16,7 +16,6 @@ describe('app', () => {
 
   beforeEach(() => {
     return seedData();
-    // .then(() => done());
   });
 
   afterAll(done => {
@@ -29,4 +28,19 @@ describe('app', () => {
       .then(res => expect(res.body).toHaveLength(10));
   });
   
+  it.only('gets studio by id', () => {
+    return request(app)
+      .get('/studios')
+      .then(res => {
+        return request(app)
+          .get(`/studios/${res.body[0]._id}`);
+      })
+      .then(res => expect(res.body).toEqual({
+        _id: expect.any(String),
+        name: expect.any(String),
+        address: expect.any(Object),
+        films: expect.any(Array),
+        __v: 0
+      }));
+  });
 });
