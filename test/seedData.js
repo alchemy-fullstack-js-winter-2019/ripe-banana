@@ -8,10 +8,10 @@ const Reviewer = require('../lib/models/Reviewer');
 const Review = require('../lib/models/Review');
 
 const STUDIOS = 10;
-const FILMS = 25;
-const ACTORS = 500;
-const REVIEWERS = 200;
-const REVIEWS = 600;
+const FILMS = 20;
+const ACTORS = 20;
+const REVIEWERS = 30;
+const REVIEWS = 30;
 
 let filmsDb = null;
 module.exports = ((studios = STUDIOS, films = FILMS, actors = ACTORS, reviewers = REVIEWERS, reviews = REVIEWS) => {
