@@ -2,7 +2,7 @@ require('dotenv').config();
 require('../../lib/utils/connect')();
 const mongoose = require('mongoose');
 // const seedData = require('../seedData');
-const Actor = require('../../lib/models/Actor');
+const Reviewer = require('../../lib/models/Reviewer');
 
 describe('app', () => {
   beforeEach(done => mongoose.connection.dropDatabase(done));
@@ -13,17 +13,15 @@ describe('app', () => {
 
   afterAll(() => mongoose.disconnect());
 
-  it('validates a good model for Actor', () => {
-    return Actor
+  it('validates a good model for Reviewer', () => {
+    return Reviewer
       .create({
-        name: 'Shabz',
-        dob: new Date('1892-12-17'),
-        pob: 'Antartica'
+        name: 'Shaba Critic',
+        company: 'Shabsters, Inc.'
       })
-      .then(actor => expect(actor.toJSON()).toEqual({
-        name: 'Shabz',
-        dob: new Date('1892-12-17'),
-        pob: 'Antartica',
+      .then(reviewer => expect(reviewer.toJSON()).toEqual({
+        name: 'Shaba Critic',
+        company: 'Shabsters, Inc.',
         _id: expect.any(mongoose.Types.ObjectId)
       }));
   });  
