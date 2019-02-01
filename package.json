@@ -9,7 +9,7 @@
     "jest": "jest --verbose",
     "test": "npm run jest",
     "test:watch": "npm run jest -- --runInBand --watch",
-    "start": "nodemon index.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
