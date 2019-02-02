@@ -39,20 +39,21 @@ describe('reviews', () => {
         });
       });
   });
-});
 
-it('can list all the reviews', () => {
-  const reviews = ['Best movie ever!', 'Horrible movie', 'Flop of the century'];
-  return Promise.all(reviews.map(createReview))
-    .then(() => {
-      return request(app)
-        .get('/reviews');
-    })
-    .then(({ body }) => {
-      expect(body).toHaveLength(3);
-    });
-});
 
-afterAll(done => {
-  mongoose.connection.close(done);
+  it('can list all the reviews', () => {
+    const reviews = ['Best movie ever!', 'Horrible movie', 'Flop of the century'];
+    return Promise.all(reviews.map(createReview))
+      .then(() => {
+        return request(app)
+          .get('/reviews');
+      })
+      .then(({ body }) => {
+        expect(body).toHaveLength(3);
+      });
+  });
+
+  afterAll(done => {
+    mongoose.connection.close(done);
+  });
 });

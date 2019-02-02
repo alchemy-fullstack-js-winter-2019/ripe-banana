@@ -40,76 +40,70 @@ describe('actors', () => {
         aHopkins = body;
       });
   });
-});
 
-it('can list all the actors in the database', () => {
-  const names = ['Mark Wahlberg', 'James McAvoy', 'Matt Damon'];
-  return Promise.all(names.map(createActor))
-    .then(() => {
-      return request(app)
-        .get('/actors');
-    })
-    .then(({ body }) => {
-      expect(body).toHaveLength(3);
-    });
-});
 
-it('gets an actor by id', () => {
-  let hannibal = {
-    title: 'Hannibal',
-    studio: mongoose.Types.ObjectId(),
-    released: 2001,
-    cast: [{
-      part: 'Hannibal Lecter',
-      actor: aHopkins._id
-    }]
-  };
-
-  return request(app)
-    .post('/films')
-    .send(hannibal)
-    .then(({ body }) => {
-      hannibal = body;
-      return request(app) 
-        .get(`/actors/${aHopkins._id}`);
-    })
-
-    .then(({ body }) => {
-      expect(body).toEqual({ ...aHopkins, films: [] });
-    });
-});
-
-it('finds actor by id and updates it', () => {
-  return createActor('Rider Strong')
-    .then(createdActor => {
-      createdActor.name = 'Vin Diesel';
-      return request(app)
-        .put(`/actors/${createdActor._id}`)
-        .send(createdActor);
-    })
-    .then(res => {
-      expect(res.body).toEqual({
-        name: 'Vin Diesel',
-        dob: '1937-12-31T08:00:00.000Z',
-        pob: 'birthplace',
-        _id: expect.any(String),
-        __v: 0
+  it('can list all the actors in the database', () => {
+    const names = ['Mark Wahlberg', 'James McAvoy', 'Matt Damon'];
+    return Promise.all(names.map(createActor))
+      .then(() => {
+        return request(app)
+          .get('/actors');
+      })
+      .then(({ body }) => {
+        expect(body).toHaveLength(3);
       });
-    });
-});
+  });
 
-it('finds actor by id and deletes it', () => {
-  return createActor('Heath Ledger')
-    .then((createdActor) => {
-      const id = createdActor._id;
-      return request(app)
-        .delete(`/actors/${id}`)
-        .then(res => {
-          expect(res.body).toEqual({ 'deleted': 1 });
+  it('gets an actor by id', () => {
+    return createActor('Hugh Jackman')
+      .then(createdActor => {
+        return request(app)
+          .get(`/actors/${createdActor._id}`)
+          .then(res => {
+            expect(res.body).toEqual({
+              name: 'Hugh Jackman',
+              dob: '1937-12-31T08:00:00.000Z',
+              pob: 'birthplace',
+              _id: expect.any(String),
+              films: [],
+              __v: 0
+            });
+          });
+      });
+  });
+
+  it('finds actor by id and updates it', () => {
+    return createActor('Rider Strong')
+      .then(createdActor => {
+        createdActor.name = 'Vin Diesel';
+        return request(app)
+          .put(`/actors/${createdActor._id}`)
+          .send(createdActor);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'Vin Diesel',
+          dob: '1937-12-31T08:00:00.000Z',
+          pob: 'birthplace',
+          _id: expect.any(String),
+          __v: 0
         });
-    });
-});
+      });
+  });
 
-afterAll(done => {
-  mongoose.connection.close(done);
+  it('finds actor by id and deletes it', () => {
+    return createActor('Heath Ledger')
+      .then((createdActor) => {
+        const id = createdActor._id;
+        return request(app)
+          .delete(`/actors/${id}`)
+          .then(res => {
+            expect(res.body).toEqual({ 'deleted': 1 });
+          });
+      });
+  });
+
+  afterAll(done => {
+    mongoose.connection.close(done);
+  });
 });
