@@ -50,6 +50,22 @@ describe('reviewers', () => {
       });
   });
 
+  it('gets a reviewer by id', () => {
+    return createReviewer('Gene Shalit')
+      .then(createdReviewer => {
+        return request(app) 
+          .get(`/reviewers/${createdReviewer._id}`)
+          .then(res => {
+            expect(res.body).toEqual({
+              name: 'Gene Shalit',
+              company: 'review company',
+              reviews: [],
+              _id: expect.any(String)
+            });
+          });
+      });
+  });
+
   afterAll(done => {
     mongoose.connection.close(done);
   });
