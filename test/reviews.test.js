@@ -41,7 +41,7 @@ describe('reviews', () => {
   });
 });
 
-it('can list all the reviews in the database', () => {
+it('can list all the reviews', () => {
   const reviews = ['Best movie ever!', 'Horrible movie', 'Flop of the century'];
   return Promise.all(reviews.map(createReview))
     .then(() => {

@@ -79,7 +79,7 @@ it('gets an actor by id', () => {
     });
 });
 
-it('finds actor by id and updates the actor, returning the update', () => {
+it('finds actor by id and updates it', () => {
   return createActor('Rider Strong')
     .then(createdActor => {
       createdActor.name = 'Vin Diesel';
@@ -98,7 +98,7 @@ it('finds actor by id and updates the actor, returning the update', () => {
     });
 });
 
-it('deletes an actor with :id and returns the delete count', () => {
+it('finds actor by id and deletes it', () => {
   return createActor('Heath Ledger')
     .then((createdActor) => {
       const id = createdActor._id;
