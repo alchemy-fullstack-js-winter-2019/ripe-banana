@@ -59,5 +59,19 @@ describe('studio routes', () => {
         expect(res.body).toContainEqual({ _id: expect.any(String), name: 'Netflix' });
       });
   });
-
+  it('gets a studio by ID', () => {
+    return createStudio('Studio Ghibli')
+      .then(res => {
+        return request(app)
+          .get(`/studios/${res._id}`)
+          .then(res => {
+            expect(res.body).toEqual({
+              name:'Studio Ghibli',
+              address: expect.any(Object),
+              _id:expect.any(String),
+              __v:0
+            });
+          });
+      });
+  });
 });

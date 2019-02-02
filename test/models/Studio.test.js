@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const { Types } = require('mongoose');
 const Studio = require('../../lib/models/Studio');
 
-describe('Studio model', () => {
+describe.skip('Studio model', () => {
 
   beforeEach(done  => {
     mongoose.connection.dropDatabase(done);
