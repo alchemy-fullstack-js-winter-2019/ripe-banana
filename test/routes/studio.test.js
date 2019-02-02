@@ -60,13 +60,13 @@ describe('studio routes', () => {
       });
   });
   it('gets a studio by ID', () => {
-    return createStudio('Studio Ghibli')
+    return createStudio('Laika')
       .then(res => {
         return request(app)
           .get(`/studios/${res._id}`)
           .then(res => {
             expect(res.body).toEqual({
-              name:'Studio Ghibli',
+              name:'Laika',
               address: expect.any(Object),
               _id:expect.any(String),
               __v:0
@@ -74,4 +74,16 @@ describe('studio routes', () => {
           });
       });
   });
+  it('deletes a studio', () => {
+    return createStudio('Studio Ghibli')
+      .then(createdStudio => {
+        const studio_id = createdStudio._id;
+        return request(app)
+          .delete(`/studios/${studio_id}`)
+          .then(res => {
+            expect(res.body).toEqual({ deleted: true });
+          });
+      });
+  });
+
 });
