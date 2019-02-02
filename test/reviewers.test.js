@@ -66,6 +66,24 @@ describe('reviewers', () => {
       });
   });
 
+  it('finds a reviewer and updates it', () => {
+    return createReviewer('Peter Travers')
+      .then(createdReviewer => {
+        createdReviewer.name = 'Kenneth Turan';
+        return request(app)
+          .put(`/reviewers/${createdReviewer._id}`)
+          .send(createdReviewer);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          name: 'Kenneth Turan',
+          company: 'review company',
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+
   afterAll(done => {
     mongoose.connection.close(done);
   });
