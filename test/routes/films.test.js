@@ -22,25 +22,26 @@ describe('app', () => {
     mongoose.connection.close(done);
   });
 
-  it('gets a list of studios', () => {
+  it('gets a list of films', () => {
     return request(app)
       .get('/films')
       .then(res => expect(res.body).toHaveLength(20));
   });
   
-  // it('gets studio by id', () => {
-  //   return request(app)
-  //     .get('/studios')
-  //     .then(res => {
-  //       return request(app)
-  //         .get(`/studios/${res.body[0]._id}`);
-  //     })
-  //     .then(res => expect(res.body).toEqual({
-  //       _id: expect.any(String),
-  //       name: expect.any(String),
-  //       address: expect.any(Object),
-  //       films: expect.any(Array),
-  //       __v: 0
-  //     }));
-  // });
+  it('gets film by id', () => {
+    return request(app)
+      .get('/films')
+      .then(res => {
+        return request(app)
+          .get(`/films/${res.body[0]._id}`);
+      })
+      .then(res => expect(res.body).toEqual({
+        _id: expect.any(String),
+        title: expect.any(String),
+        released: expect.any(Number),
+        studio: expect.any(Object),
+        cast: expect.any(Array),
+        reviews: expect.any(Array)
+      }));
+  });
 });
