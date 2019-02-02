@@ -6,16 +6,16 @@ const app = require('../../lib/app');
 const mongoose = require('mongoose');
 
 
-// let createStudio = (name, address = {
-//   city: 'NY',
-//   state: 'NY', 
-//   country: 'US'
-// }) => {
-//   return Studio.create({ name, address })
-//     .then(createdStudio => {
-//       return createdStudio;
-//     });
-// };
+let createStudio = (name, address = {
+  city: 'NY',
+  state: 'NY', 
+  country: 'US'
+}) => {
+  return Studio.create({ name, address })
+    .then(createdStudio => {
+      return createdStudio;
+    });
+};
 describe('studio routes', () => {
   beforeEach(done => {
     mongoose.connection.dropDatabase(done);
@@ -47,4 +47,17 @@ describe('studio routes', () => {
         });
       });
   });
+  it('gets list of ALL studios', () => {
+    const arrayOfStudios = ['Netflix', 'Amazon', 'HBO Pictures'];
+    return Promise.all(arrayOfStudios.map(createStudio))
+      .then(() => {
+        return request(app)
+          .get('/studios');
+      })
+      .then(res => { 
+        expect(res.body).toHaveLength(3);
+        expect(res.body).toContainEqual({ _id: expect.any(String), name: 'Netflix' });
+      });
+  });
+
 });
