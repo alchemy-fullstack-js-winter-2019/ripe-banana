@@ -8,7 +8,8 @@ const createReview = (review) => {
   return request(app)
     .post('/reviews')
     .send({ 
-      review: review
+      review: review,
+      rating: 4
     })
     .then(res => res.body);
 };
