@@ -14,6 +14,7 @@ const REVIEWERS = 30;
 const REVIEWS = 30;
 
 let filmsDb = null;
+let studioDb = null;
 module.exports = ((studios = STUDIOS, films = FILMS, actors = ACTORS, reviewers = REVIEWERS, reviews = REVIEWS) => {
   return Promise.all(
     [...Array(studios)].map(() => Studio.create({
@@ -26,19 +27,7 @@ module.exports = ((studios = STUDIOS, films = FILMS, actors = ACTORS, reviewers 
     }))
   )
     .then(studiosCreated => {
-      return Promise.all(
-        [...Array(films)].map(() => {
-          return Film.create({
-            title: chance.word(),
-            studio: chance.pickone(studiosCreated)._id,
-            released: parseInt(chance.year()),
-            cast: [...Array(10)].map(() => chance.name())
-          });
-        })
-      );
-    })
-    .then(filmsCreated => {
-      filmsDb = filmsCreated;
+      studioDb = studiosCreated;
       return Promise.all(
         [...Array(actors)].map(() => {
           return Actor.create({
@@ -49,7 +38,20 @@ module.exports = ((studios = STUDIOS, films = FILMS, actors = ACTORS, reviewers 
         })
       );
     })
-    .then(() => {
+    .then(actorsCreated => {
+      return Promise.all(
+        [...Array(films)].map(() => {
+          return Film.create({
+            title: chance.word(),
+            studio: chance.pickone(studioDb)._id,
+            released: parseInt(chance.year()),
+            cast: [...Array(10)].map(() => chance.pickone(actorsCreated)._id)
+          });
+        })
+      );
+    })
+    .then(filmsCreated => {
+      filmsDb = filmsCreated;
       return Promise.all(
         [...Array(reviewers)].map(() => {
           return Reviewer.create({
