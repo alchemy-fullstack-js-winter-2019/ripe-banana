@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../lib/app');
 
-
 const createStudio = (name = 'Sony Pictures', address = { city: 'Burbank', state: 'California', country: 'USA' }) => {
   return request(app)
     .post('/studios')
@@ -15,8 +14,7 @@ const createStudio = (name = 'Sony Pictures', address = { city: 'Burbank', state
     .then(res => res.body);
 };
 
-
-describe('tweets app', () => {
+describe('studios app', () => {
   beforeEach(done => {
     return mongoose.connection.dropDatabase(() => {
       done();
@@ -29,7 +27,7 @@ describe('tweets app', () => {
 
   it('can create a studio', () => {
     return request(app)
-      .post('/')
+      .post('/studios')
       .send({
         name: 'Walt Disney',
         address: { city: 'Burbank', state: 'California', country: 'USA' }
@@ -69,6 +67,7 @@ describe('tweets app', () => {
         expect(res.body).toEqual({
           address: { city: 'Burbank', state: 'California', country: 'USA' },
           name: 'Pacific',
+          films: [],
           _id,
           __v: 0
         });
@@ -78,13 +77,13 @@ describe('tweets app', () => {
   it('finds a studio by id and updates it', () => {
     return createStudio('Warner Bros')
       .then(updatedStudio => {
-        updatedStudio.handle = 'Paramount';
+        updatedStudio.name = 'Paramount';
         return request(app)
-          .patch(`/studios/${updatedStudio._id}`)
+          .put(`/studios/${updatedStudio._id}`)
           .send(updatedStudio);
       })
       .then(res => {
-        expect(res.text).toContain('Paramount');
+        expect(res.body.name).toContain('Paramount');
       });
   });
 
@@ -99,5 +98,4 @@ describe('tweets app', () => {
           });
       });
   });
-
 });

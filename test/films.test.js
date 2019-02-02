@@ -6,15 +6,28 @@ const app = require('../lib/app');
 
 
 const createFilm = (title = 'Ghostbusters', released = 1984) => {
+  return createStudio()
+    .then(createdStudio => {
+      return request(app)
+        .post('/films')
+        .send({
+          title,
+          released,
+          studio: createdStudio._id
+        })
+        .then(res => res.body);
+    });
+};
+
+const createStudio = (name = 'Paramount', address = { city: 'Burbank', state: 'California', country: 'USA' }) => {
   return request(app)
-    .post('/films')
+    .post('/studios')
     .send({
-      title,
-      released
+      name,
+      address
     })
     .then(res => res.body);
 };
-
 
 describe('films app', () => {
   beforeEach(done => {
@@ -28,19 +41,25 @@ describe('films app', () => {
   });
 
   it('can create a film', () => {
-    return request(app)
-      .post('/films')
-      .send({
-        title: 'The Matrix',
-        released: 1999
-      })
-      .then(res => {
-        expect(res.body).toEqual({
-          title: 'The Matrix',
-          released: 1999,
-          _id: expect.any(String),
-          __v: 0
-        });
+    return createStudio('Paramount')
+      .then(createdStudio => {
+        return request(app)
+          .post('/films')
+          .send({
+            title: 'The Matrix',
+            released: 1999,
+            studio: createdStudio._id
+          })
+          .then(res => {
+            expect(res.body).toEqual({
+              title: 'The Matrix',
+              released: 1999,
+              studio: expect.any(String),
+              cast: [],
+              _id: expect.any(String),
+              __v: 0
+            });
+          });
       });
   });
 
@@ -69,8 +88,13 @@ describe('films app', () => {
         expect(res.body).toEqual({
           title: 'American Beauty',
           released: 1984,
-          _id,
-          __v: 0
+          cast: [],
+          reviews: [],
+          studio: {
+            _id: expect.any(String),
+            name: 'Paramount'
+          },
+          _id
         });
       });
   });
@@ -80,7 +104,7 @@ describe('films app', () => {
       .then(updatedFilm => {
         updatedFilm.title = 'Office Space';
         return request(app)
-          .patch(`/films/${updatedFilm._id}`)
+          .put(`/films/${updatedFilm._id}`)
           .send(updatedFilm);
       })
       .then(res => {
@@ -99,5 +123,4 @@ describe('films app', () => {
           });
       });
   });
-
 });
