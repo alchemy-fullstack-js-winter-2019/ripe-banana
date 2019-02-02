@@ -4,6 +4,15 @@ const request = require('supertest');
 const app = require('../lib/app');
 const mongoose = require('mongoose');
 
+const createReview = (review) => {
+  return request(app)
+    .post('/reviews')
+    .send({ 
+      review: review
+    })
+    .then(res => res.body);
+};
+
 describe('reviews', () => {
   beforeEach(done => {
     return mongoose.connection.dropDatabase(() => {
@@ -29,4 +38,20 @@ describe('reviews', () => {
         });
       });
   });
+});
+
+it('can list all the reviews in the database', () => {
+  const reviews = ['Best movie ever!', 'Horrible movie', 'Flop of the century'];
+  return Promise.all(reviews.map(createReview))
+    .then(() => {
+      return request(app)
+        .get('/reviews');
+    })
+    .then(({ body }) => {
+      expect(body).toHaveLength(3);
+    });
+});
+
+afterAll(done => {
+  mongoose.connection.close(done);
 });
