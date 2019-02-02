@@ -2,36 +2,39 @@
   "name": "ripe-banana",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "lint": "eslint .",
-    "coverage": "jest --coverage --detectOpenHandles",
-    "jest": "jest --verbose",
-    "test": "npm run jest",
-    "test:watch": "npm run jest -- --runInBand --watch",
-    "start": "nodemon server.js"
+  "main": "server.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/pickuppatterns/ripe-banana.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/pickuppatterns/ripe-banana/issues"
-  },
-  "homepage": "https://github.com/pickuppatterns/ripe-banana#readme",
   "dependencies": {
-    "chance": "^1.0.18",
     "dotenv": "^6.2.0",
+    "eslint": "^5.12.1",
     "express": "^4.16.4",
-    "mongoose": "^5.4.9",
+    "git": "^0.1.5",
+    "init": "^0.1.2",
+    "jest": "^23.6.0",
+    "mongoose": "^5.4.6",
     "morgan": "^1.9.1",
     "nodemon": "^1.18.9",
     "supertest": "^3.4.2"
   },
-  "devDependencies": {
-    "eslint": "^5.13.0",
-    "jest": "^24.0.0"
-  }
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch --verbose --runInBand",
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zilula/ripe-banana.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zilula/ripe-banana/issues"
+  },
+  "homepage": "https://github.com/Zilula/ripe-banana#readme"
 }
