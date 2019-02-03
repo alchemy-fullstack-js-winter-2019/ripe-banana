@@ -59,7 +59,7 @@ describe('actors', () => {
                         expect(res.body).toEqual({
                             name: 'chris',
                             _id: expect.any(String),
-                            dob: '1980-04-20T00:00:00.000Z',
+                            dob: expect.any(String),
                             pob: 'Paris, France',
                             __v: 0
                         });
@@ -87,7 +87,7 @@ describe('actors', () => {
                 expect(res.body).toEqual({
                     name: 'Kate',
                     _id: expect.any(String),
-                    dob: '1980-04-20T00:00:00.000Z',
+                    dob: expect.any(String),
                     pob: 'Paris, France',
                     __v: 0
                 });
