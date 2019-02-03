@@ -19,6 +19,9 @@ describe('reviews', () => {
             done();
         });
     });
+    afterAll(done => {
+        mongoose.connection.close(done);
+    }); 
     it('creates a review', () => {
         return request(app)
             .post('/reviews')

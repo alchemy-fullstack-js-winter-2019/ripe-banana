@@ -27,6 +27,9 @@ describe('actors', () => {
             done();
         });
     });
+    afterAll(done => {
+        mongoose.connection.close(done);
+    }); 
     it('creates an actor', () => {
         return request(app)
             .post('/actors')
