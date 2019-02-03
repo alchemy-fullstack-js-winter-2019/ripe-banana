@@ -3,6 +3,7 @@ require('../lib/utils/connect')();
 const request = require('supertest');
 const app = require('../lib/app');
 const mongoose = require('mongoose');
+// const { Types } = require('mongoose');
 
 const createActor = (name) => {
     return request(app) 
@@ -27,9 +28,6 @@ describe('actors', () => {
             done();
         });
     });
-    afterAll(done => {
-        mongoose.connection.close(done);
-    }); 
     it('creates an actor', () => {
         return request(app)
             .post('/actors')
@@ -54,57 +52,60 @@ describe('actors', () => {
             });
     });
     it('gets an actor by id', () => {
-        return createActor('chris')
-            .then(actor => {
-                return request(app)
-                    .get(`/actors/${actor._id}`)
-                    .then(res => {
-                        expect(res.body).toEqual({
-                            name: 'chris',
-                            _id: expect.any(String),
-                            dob: expect.any(String),
-                            pob: 'Paris, France',
-                            __v: 0
-                        });
-                    });
-            });
-        // const movie = { 
-        //     title: 'James Bond', 
-        //     studio: mongoose.Types.ObjectId(),
-        //     released: 1969,
-        //     cast: [{
-        //         part: 'Lead',
-        //         actor: helen._id
-        //     }]
-        // };
-    });
-    it('gets an actor by id and updates', () => {
-        return createActor('Robert')
-            .then(actor => {
-                actor.name = 'Kate';
-                return request(app)
-                    .put(`/actors/${actor._id}`)
-                    .send(actor);
+        let movie = {
+            title: 'James Bond',
+            studio: mongoose.Types.ObjectId(),
+            released: 1960,
+            cast: [{
+                part: 'part',
+                actor: helen._id
+            }]
+        };
+        
+        return request(app)
+            .post('/films')
+            .send(movie)
+            .then(({ body }) => {
+                movie = body;
+                return request(app) 
+                    .get(`/actors/${helen._id}`);
             })
-            .then(res => {
-                expect(res.body).toEqual({
-                    name: 'Kate',
-                    _id: expect.any(String),
-                    dob: expect.any(String),
-                    pob: 'Paris, France',
-                    __v: 0
-                });
+      
+            .then(({ body }) => {
+                expect(body).toEqual({ ...helen, films: [] });
             });
-    });
-    it('deletes an actor', () => {
-        return createActor('Brad')
-            .then(actor => {
-                const id = actor._id;
-                return request(app)
-                    .delete(`/actors/${id}`);
-            })
-            .then(res => {
-                expect(res.body).toEqual({ deleted: 1 });
-            });
-    });
+    });      
 });
+it('gets an actor by id and updates', () => {
+    return createActor('Robert')
+        .then(actor => {
+            actor.name = 'Kate';
+            return request(app)
+                .put(`/actors/${actor._id}`)
+                .send(actor);
+        })
+        .then(res => {
+            expect(res.body).toEqual({
+                name: 'Kate',
+                _id: expect.any(String),
+                dob: expect.any(String),
+                pob: 'Paris, France',
+                __v: 0
+            });
+        });
+});
+it('deletes an actor', () => {
+    return createActor('Brad')
+        .then(actor => {
+            const id = actor._id;
+            return request(app)
+                .delete(`/actors/${id}`);
+        })
+        .then(res => {
+            expect(res.body).toEqual({ deleted: 1 });
+        });
+});
+
+afterAll(done => {
+    mongoose.connection.close(done);
+}); 

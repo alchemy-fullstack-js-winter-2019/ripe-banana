@@ -32,10 +32,7 @@ describe('films', () => {
         return mongoose.connection.dropDatabase(() => {
             done();
         });
-    });
-    afterAll(done => {
-        mongoose.connection.close(done);
-    });  
+    }); 
     it('creates an film', () => {
         return createStudio('Universal')
             .then(createStudio => {
@@ -113,4 +110,8 @@ describe('films', () => {
                 expect(res.body).toEqual({ deleted: 1 });
             });
     });
+});
+
+afterAll(done => {
+    mongoose.connection.close(done);
 });
