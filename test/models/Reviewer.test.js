@@ -11,16 +11,12 @@ describe('reviewer model', () => {
   it('validates a reviewer model', () => {
     const reviewer = new Reviewer({
       name: 'Reviewer1',
-      company: {
-        website: 'reviewmovies.com',
-      }
+      company: 'BestReview'
     });
     expect(reviewer.toJSON()).toEqual({
       _id: expect.any(Types.ObjectId),
       name: 'Reviewer1',
-      company: {
-        website: 'reviewmovies.com',
-      }
+      company: 'BestReview'
     });
   });
 

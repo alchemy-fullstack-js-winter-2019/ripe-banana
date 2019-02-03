@@ -3,14 +3,14 @@ require('../../lib/utils/connect')();
 const mongoose = require('mongoose');
 const request = require('supertest');
 const app = require('../../lib/app');
-// const Reviewer = require('../../lib/models/Reviewer');
+const Reviewer = require('../../lib/models/Reviewer');
 
-// const createReviewer = (name, company = { website: 'reviewmovies.com' }) => {
-//   return Reviewer.create({ name, company })
-//     .then(createdReviewer => {
-//       return createdReviewer;
-//     });
-// };
+const createReviewer = (name, company) => {
+  return Reviewer.create({ name, company })
+    .then(createdReviewer => {
+      return createdReviewer;
+    });
+};
 describe('reviewer app', () => {
 
   beforeEach(done => {
@@ -21,24 +21,30 @@ describe('reviewer app', () => {
   });
 
   it('creates a review', () => {
-    // return createReviewer('reviewer1', { website: 'reviewmovies.com' })
     return request(app)
       .post('/reviewers')
       .send({
         name: 'reviewer1',
-        company: {
-          website: 'reviewmovies.com'
-        }
+        company: 'BestReview'
       })
       .then(res => {
         expect(res.body).toEqual({
           name: 'reviewer1',
-          company: {
-            website: 'reviewmovies.com'
-          },
+          company: 'BestReview',
           _id: expect.any(String),
           __v:0
         });
+      });
+  });
+  
+  it('returns list of reviewers', () => {
+    return Promise.all(['Reviewer1', 'Reviewer2', 'Reviewer3'].map(createReviewer))
+      .then(() => {
+        return request(app)
+          .get('/reviewers');
+      })
+      .then(res => {
+        expect(res.body).toHaveLength(3);
       });
   });
 });
