@@ -19,9 +19,6 @@ describe('reviews', () => {
             done();
         });
     });
-    afterAll(done => {
-        mongoose.connection.close(done);
-    }); 
     it('creates a review', () => {
         return request(app)
             .post('/reviews')
@@ -47,8 +44,12 @@ describe('reviews', () => {
                 return request(app)
                     .get('/reviews');
             })
-            .then(res => {
-                expect(res.text).toContain('review2');
+            .then(({ body }) => {
+                expect(body).toEqual([]);
             });
     });
+});
+
+afterAll(done => {
+    mongoose.connection.close(done);
 });
