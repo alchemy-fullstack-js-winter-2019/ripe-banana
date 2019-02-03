@@ -63,6 +63,26 @@ describe('reviewer app', () => {
           });
       });
   });
+
+  it('updates a reviewer', () => {
+    return createReviewer('Reviewer1', 'BestReview')
+      .then(createdReviewer => {
+        return request(app)
+          .patch(`/reviewers/${createdReviewer._id}`)
+          .send({
+            name: 'Reviewer1',
+            company: 'BestReview'
+          })
+          .then(updatedReviewer => {
+            expect(updatedReviewer.body).toEqual({
+              name: 'Reviewer1',
+              company: 'BestReview',
+              _id: expect.any(String),
+              __v: 0
+            });
+          });
+      });
+  });
 });
 
 
