@@ -50,4 +50,47 @@ describe('actors', () => {
                 expect(body).toHaveLength(3);
             });
     });
+    it('gets an actor by id', () => {
+        return createActor('chris')
+            .then(actor => {
+                return request(app)
+                    .get(`/actors/${actor._id}`)
+                    .then(res => {
+                        expect(res.body).toEqual({
+                            name: 'chris',
+                            _id: expect.any(String),
+                            dob: '1980-04-20T08:00:00.000Z',
+                            pob: 'Paris, France',
+                            __v: 0
+                        });
+                    });
+            });
+        // const movie = { 
+        //     title: 'James Bond', 
+        //     studio: mongoose.Types.ObjectId(),
+        //     released: 1969,
+        //     cast: [{
+        //         part: 'Lead',
+        //         actor: helen._id
+        //     }]
+        // };
+    });
+    it('gets an actor by id and updates', () => {
+        return createActor('Robert')
+            .then(actor => {
+                actor.name = 'Kate';
+                return request(app)
+                    .put(`/actors/${actor._id}`)
+                    .send(actor);
+            })
+            .then(res => {
+                expect(res.body).toEqual({
+                    name: 'Kate',
+                    _id: expect.any(String),
+                    dob: '1980-04-20T08:00:00.000Z',
+                    pob: 'Paris, France',
+                    __v: 0
+                });
+            });
+    });
 });
