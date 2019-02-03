@@ -9,7 +9,7 @@ const createActor = (name) => {
         .post('/actors')
         .send({
             name: name,
-            dob: '1980-4-20',
+            dob: '1980-04-20T00:00:00.000Z',
             pob: 'Paris, France'
         })
         .then(res => res.body);
@@ -59,7 +59,7 @@ describe('actors', () => {
                         expect(res.body).toEqual({
                             name: 'chris',
                             _id: expect.any(String),
-                            dob: '1980-04-20T08:00:00.000Z',
+                            dob: '1980-04-20T00:00:00.000Z',
                             pob: 'Paris, France',
                             __v: 0
                         });
@@ -87,7 +87,7 @@ describe('actors', () => {
                 expect(res.body).toEqual({
                     name: 'Kate',
                     _id: expect.any(String),
-                    dob: '1980-04-20T08:00:00.000Z',
+                    dob: '1980-04-20T00:00:00.000Z',
                     pob: 'Paris, France',
                     __v: 0
                 });
