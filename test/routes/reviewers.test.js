@@ -47,6 +47,22 @@ describe('reviewer app', () => {
         expect(res.body).toHaveLength(3);
       });
   });
+
+  it('gets a reviewer by id', () => {
+    return createReviewer('Reviewer1', 'BestReview')
+      .then(createdReviewer => {
+        return request(app)
+          .get(`/reviewers/${createdReviewer._id}`)
+          .then(res => {
+            expect(res.body).toEqual({
+              name: 'Reviewer1',
+              company: 'BestReview',
+              _id: expect.any(String),
+              __v: 0
+            });
+          });
+      });
+  });
 });
 
 
