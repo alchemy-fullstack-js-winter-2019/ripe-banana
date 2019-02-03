@@ -16,7 +16,7 @@ let createStudio = (name, address = {
       return createdStudio;
     });
 };
-describe('studio routes', () => {
+describe.skip('studio routes', () => {
   beforeEach(done => {
     mongoose.connection.dropDatabase(done);
   });
