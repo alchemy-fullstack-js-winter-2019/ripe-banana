@@ -20,9 +20,6 @@ describe('reviewers', () => {
             done();
         });
     });
-    afterAll(done => {
-        mongoose.connection.close(done);
-    });
     it('creates a reviewer', () => {
         return request(app)
             .post('/reviewers')
