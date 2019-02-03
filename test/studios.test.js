@@ -22,6 +22,9 @@ describe('studios', () => {
             done();
         });
     });
+    afterAll(done => {
+        mongoose.connection.close(done);
+    });
 
     it('create a studio', () => {
         return request(app)

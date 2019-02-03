@@ -33,6 +33,9 @@ describe('films', () => {
             done();
         });
     });
+    afterAll(done => {
+        mongoose.connection.close(done);
+    });
     it('creates an film', () => {
         return createStudio('Universal')
             .then(createStudio => {
