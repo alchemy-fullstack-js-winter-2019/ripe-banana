@@ -1,9 +1,9 @@
 require ('dotenv').config();
-require('../lib/utils/connect')();
+require('../../lib/utils/connect')();
 const mongoose = require('mongoose');
 const request = require('supertest');
-const app = require('../lib/app');
-const Actor = require('../lib/models/Actor');
+const app = require('../../lib/app');
+const Actor = require('../../lib/models/Actor');
 
 describe('actor app', () => {
   const createActor = ((name, dob, pob) => {

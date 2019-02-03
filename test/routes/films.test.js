@@ -1,9 +1,9 @@
 require ('dotenv').config();
-require('../lib/utils/connect')();
+require('../../lib/utils/connect')();
 const mongoose = require('mongoose');
 const request = require('supertest');
-const app = require('../lib/app');
-const Film = require('../lib/models/Film');
+const app = require('../../lib/app');
+const Film = require('../../lib/models/Film');
 
 describe('film app', () => {
   const createFilm = ((title, studio, released, cast) => {
@@ -30,16 +30,17 @@ describe('film app', () => {
               actor: 'Tom Hanks'
             }
           })
-          .then(createdActor => {
-            expect(createdActor).toEqual({
+          .then(res  => {
+            console.log('ACTOR', res.body);
+            expect(res.body).toEqual({
               title: 'Castaway',
               studio: 'warner',
-              released: Date.now(),
+              released: expect.any(Object),
               cast: { 
-                role: 'lead',
+                role: expect.any(String),
                 actor: 'Tom Hanks'
               },
-              _id: expect.any(String),
+              _id: expect.any(Object),
               __v: 0
             });
           });
