@@ -93,4 +93,15 @@ describe('actors', () => {
                 });
             });
     });
+    it('deletes an actor', () => {
+        return createActor('Brad')
+            .then(actor => {
+                const id = actor._id;
+                return request(app)
+                    .delete(`/actors/${id}`);
+            })
+            .then(res => {
+                expect(res.body).toEqual({ deleted: 1 });
+            });
+    });
 });
