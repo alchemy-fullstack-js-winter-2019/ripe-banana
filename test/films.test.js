@@ -33,9 +33,6 @@ describe('films', () => {
             done();
         });
     });
-    afterAll(done => {
-        mongoose.connection.close(done);
-    });
     it('creates an film', () => {
         return createStudio('Universal')
             .then(createStudio => {
@@ -58,17 +55,17 @@ describe('films', () => {
                     });
             });
     });
-    // it('gets all the films', () => {
-    //     const films = ['actor1', 'actor2', 'actor3'];
-    //     return Promise.all(films.map(createActor))
-    //         .then(() => {
-    //             return request(app)
-    //                 .get('/films');
-    //         })
-    //         .then(({ body }) => {
-    //             expect(body).toHaveLength(3);
-    //         });
-    // });
+    it('gets all the films', () => {
+        const films = ['actor1', 'actor2', 'actor3'];
+        return Promise.all(films.map(createFilm))
+            .then(() => {
+                return request(app)
+                    .get('/films');
+            })
+            .then(({ body }) => {
+                expect(body).toHaveLength(3);
+            });
+    });
 //     it('gets an actor by id', () => {
 //         return createActor('chris')
 //             .then(actor => {

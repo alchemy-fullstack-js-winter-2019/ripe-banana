@@ -20,7 +20,6 @@ describe('reviewers', () => {
             done();
         });
     });
-
     it('creates a reviewer', () => {
         return request(app)
             .post('/reviewers')
