@@ -88,3 +88,15 @@ it('updates an actor with :id and returns the update', () => {
       });
     });
 });
+it('deletes an actor by :id', () => {
+  return createActor('peewee')
+    .then((createdActor) => {
+      const id = createdActor._id;
+      return request(app)
+        .delete(`/actors/${id}`)
+        .then(res => {
+          expect(res.body).toEqual({ 'deleted': 1 });
+        });
+    });
+});
+
