@@ -42,7 +42,7 @@ describe('actors', () => {
   });
 });
 
-it('can list all the actors in the database', () => {
+it('can get list actors', () => {
   const names = ['angelina1', 'angelina2', 'angelina3'];
   return Promise.all(names.map(createActor))
     .then(() => {
@@ -51,5 +51,40 @@ it('can list all the actors in the database', () => {
     })
     .then(({ body }) => {
       expect(body).toHaveLength(4);
+    });
+});
+it('gets an actor by id', () => {
+  return createActor('brad pitt')
+    .then(createdActor => {
+      return request(app) 
+        .get(`/actors/${createdActor._id}`)
+        .then(res => {
+          expect(res.body).toEqual({
+            name: 'brad pitt',
+            dob: '1963-12-18T08:00:00.000Z',
+            pob: 'OK',
+            _id: expect.any(String),
+            __v: 0
+          });
+        });
+    });
+});
+
+it('updates an actor with :id and returns the update', () => {
+  return createActor('actor3')
+    .then(createdActor => {
+      createdActor.name = 'new name';
+      return request(app)
+        .put(`/actors/${createdActor._id}`)
+        .send(createdActor);
+    })
+    .then(res => {
+      expect(res.body).toEqual({
+        name: 'actor3',
+        dob: '1978-08-22T08:00:00.000Z',
+        pob: 'OK',
+        _id: expect.any(String),
+        __v: 0
+      });
     });
 });
