@@ -9,7 +9,7 @@ const createActor = (name) => {
     .post('/actors')
     .send({ 
       name: name,
-      dob: '5/4/1975',
+      dob: '1975-05-04T07:00:00.000Z',
       pob: 'LA'
     })
     .then(res => res.body);
@@ -27,7 +27,7 @@ describe('actors', () => {
       .post('/actors')
       .send({
         name: 'angelina jolie',
-        dob: '5/4/1975',
+        dob: '1975-05-04T07:00:00.000Z',
         pob: 'LA'
       })
       .then(res => {
@@ -54,15 +54,15 @@ it('can get list actors', () => {
     });
 });
 it('gets an actor by id', () => {
-  return createActor('brad pitt')
+  return createActor('angelina jolie')
     .then(createdActor => {
       return request(app) 
         .get(`/actors/${createdActor._id}`)
         .then(res => {
           expect(res.body).toEqual({
-            name: 'brad pitt',
-            dob: '1963-12-18T08:00:00.000Z',
-            pob: 'OK',
+            name: 'angelina jolie',
+            dob: '1975-05-04T08:00:00.000Z',
+            pob: 'LA',
             _id: expect.any(String),
             __v: 0
           });
@@ -70,7 +70,7 @@ it('gets an actor by id', () => {
     });
 });
 
-it('updates an actor with :id and returns the update', () => {
+it('updates an actor', () => {
   return createActor('actor3')
     .then(createdActor => {
       createdActor.name = 'new name';
@@ -80,9 +80,9 @@ it('updates an actor with :id and returns the update', () => {
     })
     .then(res => {
       expect(res.body).toEqual({
-        name: 'actor3',
-        dob: '1978-08-22T08:00:00.000Z',
-        pob: 'OK',
+        name: 'new name',
+        dob: '1975-05-04T08:00:00.000Z',
+        pob: 'LA',
         _id: expect.any(String),
         __v: 0
       });
@@ -98,5 +98,9 @@ it('deletes an actor by :id', () => {
           expect(res.body).toEqual({ 'deleted': 1 });
         });
     });
+});
+
+afterAll(done => {
+  mongoose.connection.close(done);
 });
 

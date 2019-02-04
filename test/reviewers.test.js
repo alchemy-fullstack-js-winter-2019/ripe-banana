@@ -25,12 +25,12 @@ describe('reviewers', () => {
     return request(app)
       .post('/reviewers')
       .send({
-        name: 'mr. reviewer',
+        name: 'reviewer',
         company: 'some company'
       })
       .then(res => {
         expect(res.body).toEqual({
-          name: 'mr. reviewer',
+          name: 'reviewer',
           company: 'some company',
           _id: expect.any(String),
           __v: 0
@@ -39,7 +39,7 @@ describe('reviewers', () => {
   });
 });
 
-it('can list all the actors in the database', () => {
+it('can list all the actors', () => {
   const names = ['reviewer1', 'reviewer2', 'reviewer3'];
   return Promise.all(names.map(createReviewer))
     .then(() => {
@@ -52,13 +52,13 @@ it('can list all the actors in the database', () => {
 });
 
 it('gets a reviewer by id', () => {
-  return createReviewer('travis scott')
+  return createReviewer('tpain')
     .then(createdReviewer => {
       return request(app) 
         .get(`/reviewers/${createdReviewer._id}`)
         .then(res => {
           expect(res.body).toEqual({
-            name: 'travis scott',
+            name: 'tpain',
             company: 'some company',
             _id: expect.any(String)
           });
@@ -66,8 +66,8 @@ it('gets a reviewer by id', () => {
     });
 });
 
-it('updates a reviewer with :id and returns the update', () => {
-  return createReviewer('Kate McKinnon')
+it('updates a reviewer with :id', () => {
+  return createReviewer('jane doe')
     .then(createdReviewer => {
       createdReviewer.name = 'new name';
       return request(app)
