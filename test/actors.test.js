@@ -15,6 +15,12 @@ const createActor = (name) => {
     .then(res => res.body);
 };
 
+let angelina = {
+  name: 'angelina',
+  dob: new Date(1975, 5, 4).toJSON(),
+  pob: 'LA'
+};
+
 describe('actors', () => {
   beforeEach(done => {
     return mongoose.connection.dropDatabase(() => {
@@ -25,19 +31,15 @@ describe('actors', () => {
   it('creates a new actor', () => {
     return request(app)
       .post('/actors')
-      .send({
-        name: 'angelina jolie',
-        dob: '1975-05-04T07:00:00.000Z',
-        pob: 'LA'
-      })
-      .then(res => {
-        expect(res.body).toEqual({
-          name: 'angelina jolie',
-          dob: '1975-05-04T07:00:00.000Z',
-          pob: 'LA',
-          _id: expect.any(String),
-          __v: 0
+      .send(angelina)
+      .then(({ body }) => {
+        const { _id, __v } = body;
+        expect(body).toEqual({
+          ...angelina,
+          _id,
+          __v
         });
+        angelina = body;
       });
   });
 });
@@ -54,19 +56,27 @@ it('can get list actors', () => {
     });
 });
 it('gets an actor by id', () => {
-  return createActor('angelina jolie')
-    .then(createdActor => {
+  let terminator = {
+    title: 'Tomb Raider',
+    studio: mongoose.Types.ObjectId(),
+    released: 1999,
+    cast: [{
+      part: 'babe',
+      actor: angelina._id
+    }]
+  };
+  
+  return request(app)
+    .post('/films')
+    .send(terminator)
+    .then(({ body }) => {
+      terminator = body;
       return request(app) 
-        .get(`/actors/${createdActor._id}`)
-        .then(res => {
-          expect(res.body).toEqual({
-            name: 'angelina jolie',
-            dob: '1975-05-04T08:00:00.000Z',
-            pob: 'LA',
-            _id: expect.any(String),
-            __v: 0
-          });
-        });
+        .get(`/actors/${angelina._id}`);
+    })
+
+    .then(({ body }) => {
+      expect(body).toEqual({ ...angelina, films: [] });
     });
 });
 
@@ -103,4 +113,3 @@ it('deletes an actor by :id', () => {
 afterAll(done => {
   mongoose.connection.close(done);
 });
-
