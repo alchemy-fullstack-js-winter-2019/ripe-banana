@@ -3,4 +3,5 @@ node_js: "10"
 services:
   - mongodb
 env:
-  - MONGODB_URI=mongodb://localhost:27017/latergrams AUTH_SECRET= MONKEYBANANASPLITS
+  - MONGODB_URI=mongodb://localhost:27017/ripebannana
+  AUTH_SECRET= MONKEYBANANASPLITS
