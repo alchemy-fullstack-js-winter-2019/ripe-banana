@@ -28,12 +28,12 @@ describe('studios app', () => {
     return request(app)
       .post('/studios')
       .send({
-        name: 'Walt Disney',
+        name: 'WB',
         address: { city: 'Burbank', state: 'California', country: 'USA' }
       })
       .then(res => {
         expect(res.body).toEqual({
-          name: 'Walt Disney',
+          name: 'WB',
           address: { city: 'Burbank', state: 'California', country: 'USA' },
           _id: expect.any(String),
           __v: 0
@@ -42,7 +42,7 @@ describe('studios app', () => {
   });
 
   it('gets a list of all studios', () => {
-    const studiosToCreate = ['Universal', 'Lionsgate'];
+    const studiosToCreate = ['Universal', 'Paramount'];
     return Promise.all(studiosToCreate.map(createStudio))
       .then(() => {
         return request(app)
@@ -74,7 +74,7 @@ describe('studios app', () => {
   });
 
   it('finds a studio by id and updates it', () => {
-    return createStudio('Warner Bros')
+    return createStudio('disney')
       .then(updatedStudio => {
         updatedStudio.name = 'Paramount';
         return request(app)
@@ -87,7 +87,7 @@ describe('studios app', () => {
   });
 
   it('finds by id and deletes a studio', () => {
-    return createStudio('20th Century Fox')
+    return createStudio('Pixar')
       .then(createdStudio => {
         const id = createdStudio._id;
         return request(app)

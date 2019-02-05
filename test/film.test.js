@@ -64,7 +64,7 @@ describe('films app', () => {
   });
 
   it('gets a list of all films', () => {
-    const filmsToCreate = ['Jade', 'Twilight'];
+    const filmsToCreate = ['Batman', 'Twilight'];
     return Promise.all(filmsToCreate.map(createFilm))
       .then(() => {
         return request(app)
